@@ -7,7 +7,7 @@ namespace PythonExecutorLibrary
 {
     public class PythonExecutor
     {
-        public async Task<(string output, string error)> ExecutePythonCodeAsync(string code)
+        public static async Task<(string output, string error)> ExecutePythonCodeAsync(string code)
         {
             var output = new StringBuilder();
             var error = new StringBuilder();

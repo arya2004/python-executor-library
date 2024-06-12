@@ -5,7 +5,7 @@ namespace PythonExecutorLibrary
 {
     public class PythonPackageManager
     {
-        public async Task<bool> InstallPackageAsync(string packageName, string args = "")
+        public static async Task<bool> InstallPackageAsync(string packageName, string args = "")
         {
             var startInfo = new ProcessStartInfo
             {
