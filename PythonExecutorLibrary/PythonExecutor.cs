@@ -10,16 +10,21 @@ namespace PythonExecutorLibrary
         public TimeSpan Interval { get; set; }
         public DateTime LastExecutionTime { get; set; }
 
-        public PythonExecutor(TimeSpan _dateTimeOffset)
+        public int TimeLimitInSeconds { get; set; }
+
+        public PythonExecutor(TimeSpan _dateTimeOffset, int processTimeLimitInSeconds)
         {
             LastExecutionTime = DateTime.MinValue;
             Interval = _dateTimeOffset;
+            TimeLimitInSeconds = processTimeLimitInSeconds;
+
         }
 
-        public PythonExecutor()
+        public PythonExecutor(int processTimeLimitInSeconds)
         {
             LastExecutionTime = DateTime.MinValue;
             Interval = TimeSpan.Zero;
+            TimeLimitInSeconds = processTimeLimitInSeconds;
         }
 
 
@@ -55,11 +60,15 @@ namespace PythonExecutorLibrary
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
 
-                await process.WaitForExitAsync();
+                await process.WaitForExitAsync(this.TimeLimitInSeconds * 1000);
 
                 return (output.ToString(), error.ToString());
             }
+
         }
+
+
+
     }
 
    

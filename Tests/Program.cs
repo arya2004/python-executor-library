@@ -11,24 +11,34 @@ namespace Tests
           
 
             string code = @"
-import numpy as np
 
-arr = np.array([1, 2, 3, 4, 5])
+import sys
 
-print(arr)
 
-print(type(arr))
+print(""Starting a task that will consume resources..."")
 
-print(x)
+try:
+    while True:
+        pass 
+except KeyboardInterrupt:
+    print(""Code terminated by user"")
+except MemoryError:
+    print(""Code terminated due to memory limit reached"")
+except Exception as e:
+    print(f""Exception occurred: {e}"")
+finally:
+    print(""Finished task"")
     
 
 ";
 
             //called every time specified by ctor
-            PythonExecutor pythonExecutor = new PythonExecutor(TimeSpan.FromSeconds(5));
+            PythonExecutor pythonExecutor = new PythonExecutor(TimeSpan.FromSeconds(5), 1);
 
             //Can be called as many times
-            PythonExecutor pythonExecutor1 = new PythonExecutor();
+            PythonExecutor pythonExecutor1 = new PythonExecutor(1);
+
+            
 
             var (output, error) = await pythonExecutor1.ExecutePythonCodeAsync(code, "python");
 
@@ -38,15 +48,15 @@ print(x)
             Console.WriteLine("Error:");
             Console.WriteLine(error);
 
-            Thread.Sleep(TimeSpan.FromSeconds(6));
+            //Thread.Sleep(TimeSpan.FromSeconds(6));
 
-            (output, error) = await pythonExecutor1.ExecutePythonCodeAsync(code, "python");
+            //(output, error) = await pythonExecutor1.ExecutePythonCodeAsync(code, "python", TimeSpan.FromSeconds(1), 1 * 1024 * 1024, 50);
 
-            Console.WriteLine("Output:");
-            Console.WriteLine(output);
+            //Console.WriteLine("Output:");
+            //Console.WriteLine(output);
 
-            Console.WriteLine("Error:");
-            Console.WriteLine(error);
+            //Console.WriteLine("Error:");
+            //Console.WriteLine(error);
         }
 
 
@@ -65,9 +75,6 @@ print(x)
             {
                 Console.WriteLine($"Failed to install {packageName}.");
             }
-
-
-
 
         }
 
@@ -106,7 +113,7 @@ print(x)
         {
             //await InstallPackage();
 
-          //  await ExecCode();
+            await ExecCode();
         }
 
         //https://chatgpt.com/share/9a1697a6-5975-4a76-ba25-47b49e52c1e1
