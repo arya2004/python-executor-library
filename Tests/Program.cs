@@ -52,28 +52,59 @@ print(x)
 
         static async Task InstallPackage()
         {
-            //string packageName = "numpy"; 
-            //string arguments = "--user"; 
+            string packageName = "numpy";
+            string arguments = "--user";
 
-            //bool success = await PythonPackageManager.InstallPackageAsync("python",packageName);
+            bool success = await PythonPackageManager.InstallPackageAsync("python", packageName);
 
-            //if (success)
-            //{
-            //    Console.WriteLine($"{packageName} installed successfully.");
-            //}
-            //else
-            //{
-            //    Console.WriteLine($"Failed to install {packageName}.");
-            //}
+            if (success)
+            {
+                Console.WriteLine($"{packageName} installed successfully.");
+            }
+            else
+            {
+                Console.WriteLine($"Failed to install {packageName}.");
+            }
+
+
+
+
+        }
+
+        static async Task PackageMics()
+        {
+            
 
             Console.WriteLine(await PythonPackageManager.GetPackageLocationAsync("python", "pandas"));
             Console.WriteLine(await PythonPackageManager.IsPackageHealthyAsync("python", "pandas"));
             Console.WriteLine(await PythonPackageManager.PackageExistsAsync("python", "pandas"));
+
+
         }
+
+        static async Task InstallPip()
+        {
+            
+
+            Console.WriteLine(await PythonPackageManager.GetPackageLocationAsync("python", "pip"));
+            Console.WriteLine(await PythonPackageManager.IsPackageHealthyAsync("python", "pip"));
+            Console.WriteLine(await PythonPackageManager.PackageExistsAsync("python", "pip"));
+
+            Console.WriteLine("Before installing pip");
+
+            Console.WriteLine(await PythonPackageManager.InstallPipAsync("python"));
+
+            Console.WriteLine("After installing pip");
+
+            Console.WriteLine(await PythonPackageManager.GetPackageLocationAsync("python", "pip"));
+            Console.WriteLine(await PythonPackageManager.IsPackageHealthyAsync("python", "pip"));
+            Console.WriteLine(await PythonPackageManager.PackageExistsAsync("python", "pip"));
+        }
+
 
         static async Task Main(string[] args)
         {
-            await InstallPackage();
+            //await InstallPackage();
 
           //  await ExecCode();
         }

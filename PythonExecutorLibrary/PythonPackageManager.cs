@@ -48,6 +48,8 @@ namespace PythonExecutorLibrary
             }
         }
 
+
+
         public static async Task<bool> PackageExistsAsync(string fullPythonPath, string packageName)
         {
             var startInfo = new ProcessStartInfo
@@ -81,6 +83,8 @@ namespace PythonExecutorLibrary
             }
         }
 
+
+
         public static async Task<bool> IsPackageHealthyAsync(string fullPythonPath, string packageName)
         {
             var startInfo = new ProcessStartInfo
@@ -101,6 +105,7 @@ namespace PythonExecutorLibrary
                 return process.ExitCode == 0; // Exit code 0 indicates the package can be imported without error
             }
         }
+
 
         public static async Task<string> GetPackageLocationAsync(string fullPythonPath, string packageName)
         {
@@ -149,6 +154,79 @@ namespace PythonExecutorLibrary
                 return null; // Location not found
             }
         }
+
+
+
+        public static async Task<bool> InstallPipAsync(string fullPythonPath)
+        {
+            const string getPipUrl = "https://bootstrap.pypa.io/get-pip.py";
+            const string tempFilePath = "get-pip.py";
+
+            using (var httpClient = new HttpClient())
+            {
+                try
+                {
+                    // Download get-pip.py script
+                    var response = await httpClient.GetAsync(getPipUrl);
+                    response.EnsureSuccessStatusCode();
+                    var scriptContent = await response.Content.ReadAsStringAsync();
+
+                    // Save the script to a temporary file
+                    await File.WriteAllTextAsync(tempFilePath, scriptContent);
+
+                    var startInfo = new ProcessStartInfo
+                    {
+                        FileName = fullPythonPath,
+                        Arguments = tempFilePath,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    };
+
+                    using (var process = new Process { StartInfo = startInfo })
+                    {
+                        process.OutputDataReceived += (sender, eventArgs) =>
+                        {
+                            if (!string.IsNullOrWhiteSpace(eventArgs.Data))
+                            {
+                                // Handle script output, if needed
+                                // Console.WriteLine(eventArgs.Data);
+                            }
+                        };
+
+                        process.ErrorDataReceived += (sender, eventArgs) =>
+                        {
+                            if (!string.IsNullOrWhiteSpace(eventArgs.Data))
+                            {
+                                // Handle script error output, if needed
+                                // Console.WriteLine(eventArgs.Data);
+                            }
+                        };
+
+                        process.Start();
+                        process.BeginOutputReadLine();
+                        process.BeginErrorReadLine();
+
+                        await process.WaitForExitAsync();
+
+                        return process.ExitCode == 0; // Exit code 0 indicates successful pip installation
+                    }
+                }
+                finally
+                {
+                    // Clean up the temporary file
+                    if (File.Exists(tempFilePath))
+                    {
+                        File.Delete(tempFilePath);
+                    }
+                }
+            }
+        }
+
+
+
+
     }
 
    
