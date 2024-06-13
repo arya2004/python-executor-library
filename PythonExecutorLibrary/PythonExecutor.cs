@@ -7,14 +7,38 @@ namespace PythonExecutorLibrary
 {
     public class PythonExecutor
     {
-        public static async Task<(string output, string error)> ExecutePythonCodeAsync(string code)
+        public TimeSpan Interval { get; set; }
+        public DateTime LastExecutionTime { get; set; }
+
+        public PythonExecutor(TimeSpan _dateTimeOffset)
         {
+            LastExecutionTime = DateTime.MinValue;
+            Interval = _dateTimeOffset;
+        }
+
+        public PythonExecutor()
+        {
+            LastExecutionTime = DateTime.MinValue;
+            Interval = TimeSpan.Zero;
+        }
+
+
+        public async Task<(string output, string error)> ExecutePythonCodeAsync(string code, string fullPythonPath)
+        {
+
+            if(LastExecutionTime.Add(Interval) > DateTime.Now)
+            {
+                throw new InvalidOperationException($"This method can only be called once every {Interval} minutes.");
+            }
+
+            LastExecutionTime = DateTime.Now;
+
             var output = new StringBuilder();
             var error = new StringBuilder();
 
             var startInfo = new ProcessStartInfo
             {
-                FileName = "python",
+                FileName = fullPythonPath,
                 Arguments = $"-c \"{code.Replace("\"", "\\\"")}\"",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
