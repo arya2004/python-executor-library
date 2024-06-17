@@ -160,13 +160,24 @@ print('Hello')
             //await InstallPackage();
 
             // await ExecCode();
-            var stopwatch = new Stopwatch();
+            //var stopwatch = new Stopwatch();
 
-            stopwatch.Start();
-            await ExecMultipleCode();
-            stopwatch.Stop();
+            //stopwatch.Start();
+            //await ExecMultipleCode();
+            //stopwatch.Stop();
 
-            Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms");
+            //Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms");
+
+            
+
+            string pythonCode1 = "import os\nprint('Hello, World!')";
+            string pythonCode2 = "fprintf('Hello, World!')";
+
+            bool result1 = PythonCodeValidator.ContainsImportOrPrint(pythonCode1);
+            bool result2 = PythonCodeValidator.ContainsImportOrPrint(pythonCode2);
+
+            Console.WriteLine($"Code 1 contains 'import' or 'print': {result1}");
+            Console.WriteLine($"Code 2 contains 'import' or 'print': {result2}");
         }
 
         //https://chatgpt.com/share/9a1697a6-5975-4a76-ba25-47b49e52c1e1
