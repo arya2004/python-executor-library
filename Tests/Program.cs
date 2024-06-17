@@ -96,10 +96,10 @@ print('Hello')
 
 
 
-            var (output, error) = await pythonExecutor1.ExecuteMultiplePythonCodeAsync("python",new string[]{ code, code, code});
+            var (output, error) = await pythonExecutor1.ExecuteMultiplePythonCodeAsync("python",new string[]{ code});
 
             Console.WriteLine("Output:");
-            Console.WriteLine(output[0]+ output[1] + output[2]);
+            Console.WriteLine(output[0]);
 
             Console.WriteLine("Error:");
             Console.WriteLine(error);

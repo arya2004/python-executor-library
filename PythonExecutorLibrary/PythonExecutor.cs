@@ -32,7 +32,7 @@ namespace PythonExecutorLibrary
         {
             if (LastExecutionTime.Add(Interval) > DateTime.Now)
             {
-                throw new InvalidOperationException($"This method can only be called once every {Interval} minutes.");
+                return (string.Empty, $"This method can only be called once every {Interval} minutes.");
             }
 
             LastExecutionTime = DateTime.Now;
@@ -88,7 +88,7 @@ namespace PythonExecutorLibrary
         {
             if (LastExecutionTime.Add(Interval) > DateTime.Now)
             {
-                throw new InvalidOperationException($"This method can only be called once every {Interval} minutes.");
+                return (Array.Empty<string>(), $"This method can only be called once every {Interval} minutes.");
             }
 
             LastExecutionTime = DateTime.Now;
@@ -135,7 +135,7 @@ namespace PythonExecutorLibrary
                     if (await Task.WhenAny(processTask, killTask) == killTask)
                     {
                         process.Kill();
-                        return (new string[0], "Error: process took a lot of time");
+                        return (Array.Empty<string>(), "Error: process took a lot of time");
                     }
 
                     await processTask;
@@ -156,7 +156,7 @@ namespace PythonExecutorLibrary
         {
             if (LastExecutionTime.Add(Interval) > DateTime.Now)
             {
-                throw new InvalidOperationException($"This method can only be called once every {Interval} minutes.");
+                return (string.Empty, $"This method can only be called once every {Interval} minutes.");
             }
 
             LastExecutionTime = DateTime.Now;
