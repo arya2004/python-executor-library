@@ -41,7 +41,7 @@ finally:
 
 
 
-            var (output, error) = await  pythonExecutor1.ExecutePythonCodeAsync(code, "python");
+            var (output, error) = await  pythonExecutor1.ExecutePythonCodeAsync("python", code);
 
             Console.WriteLine("Output:");
             Console.WriteLine(output);
@@ -51,7 +51,7 @@ finally:
 
             //Thread.Sleep(TimeSpan.FromSeconds(3));
 
-            (output, error) =  await pythonExecutor1.ExecutePythonCodeAsync(code, "python");
+            (output, error) =  await pythonExecutor1.ExecutePythonCodeAsync( "python", code);
 
             Console.WriteLine("Output:");
             Console.WriteLine(output);
@@ -59,7 +59,7 @@ finally:
             Console.WriteLine("Error:");
             Console.WriteLine(error);
 
-            (output, error) = pythonExecutor1.ExecutePythonCode(code, "python");
+            (output, error) = pythonExecutor1.ExecutePythonCode( "python", code);
 
             Console.WriteLine("Output:");
             Console.WriteLine(output);
@@ -67,7 +67,7 @@ finally:
             Console.WriteLine("Error:");
             Console.WriteLine(error);
 
-            (output, error) = pythonExecutor1.ExecutePythonCode(code, "python");
+            (output, error) = pythonExecutor1.ExecutePythonCode("python", code);
 
             Console.WriteLine("Output:");
             Console.WriteLine(output);
@@ -76,6 +76,35 @@ finally:
             Console.WriteLine(error);
         }
 
+        static async Task ExecMultipleCode()
+        {
+
+
+            string code = @"
+
+print('Hello')
+    
+
+";
+
+
+            // PythonExecutor pythonExecutor = new PythonExecutor(TimeSpan.FromSeconds(2), 1);
+
+
+
+            PythonExecutor pythonExecutor1 = new PythonExecutor(2);
+
+
+
+            var (output, error) = await pythonExecutor1.ExecuteMultiplePythonCodeAsync("python",new string[]{ code, code, code});
+
+            Console.WriteLine("Output:");
+            Console.WriteLine(output[0]+ output[1] + output[2]);
+
+            Console.WriteLine("Error:");
+            Console.WriteLine(error);
+
+        }
 
         static async Task InstallPackage()
         {
@@ -134,7 +163,7 @@ finally:
             var stopwatch = new Stopwatch();
 
             stopwatch.Start();
-            await ExecCode();
+            await ExecMultipleCode();
             stopwatch.Stop();
 
             Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms");

@@ -7,6 +7,11 @@
     <Title>PythonExecutorLibrary</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>python, code-execution</PackageTags>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>arya2004</Authors>
+    <Company>CodingKraft</Company>
+    <Description>Local Python Code Execution Abstraction</Description>
+    <RepositoryUrl>https://github.com/arya2004/python-executor-library</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

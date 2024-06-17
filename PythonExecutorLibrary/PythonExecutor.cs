@@ -28,7 +28,7 @@ namespace PythonExecutorLibrary
         }
 
 
-        public async Task<(string output, string error)> ExecutePythonCodeAsync(string code, string fullPythonPath)
+        public async Task<(string output, string error)> ExecutePythonCodeAsync(string fullPythonPath, string code)
         {
             if (LastExecutionTime.Add(Interval) > DateTime.Now)
             {
@@ -84,7 +84,75 @@ namespace PythonExecutorLibrary
         }
 
 
-        public (string output, string error) ExecutePythonCode(string code, string fullPythonPath)
+        public async Task<(string[] output, string error)> ExecuteMultiplePythonCodeAsync(string fullPythonPath, string[] args)
+        {
+            if (LastExecutionTime.Add(Interval) > DateTime.Now)
+            {
+                throw new InvalidOperationException($"This method can only be called once every {Interval} minutes.");
+            }
+
+            LastExecutionTime = DateTime.Now;
+
+            var output = new StringBuilder();
+            var error = new StringBuilder();
+
+            var finalCode = new StringBuilder();
+            String guid = Guid.NewGuid().ToString();
+
+            finalCode.Append(args[0]);
+            for (int i = 1; i < args.Length; i++)
+            {
+                finalCode.Append($"\nprint('{guid}')\n" + args[i]);
+            }
+            //Console.WriteLine(finalCode.ToString());
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = fullPythonPath,
+                Arguments = $"-c \"{finalCode}\"",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using (var process = new Process { StartInfo = startInfo })
+            {
+                process.OutputDataReceived += (sender, args) => output.AppendLine(args.Data);
+                process.ErrorDataReceived += (sender, args) => error.AppendLine(args.Data);
+
+                var cts = new CancellationTokenSource();
+                var killTask = Task.Delay(this.TimeLimitInSeconds * 1000);
+
+                try
+                {
+                    process.Start();
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+
+                    var processTask = Task.Run(() => process.WaitForExitAsync(cts.Token));
+
+                    if (await Task.WhenAny(processTask, killTask) == killTask)
+                    {
+                        process.Kill();
+                        return (new string[0], "Error: process took a lot of time");
+                    }
+
+                    await processTask;
+                }
+                finally
+                {
+                    cts.Cancel();
+                }
+
+                string[] splitAnswer = output.ToString().Split($"{guid}\r\n");
+
+                return (splitAnswer , error.ToString());
+            }
+        }
+
+
+        public (string output, string error) ExecutePythonCode(string fullPythonPath, string code)
         {
             if (LastExecutionTime.Add(Interval) > DateTime.Now)
             {
