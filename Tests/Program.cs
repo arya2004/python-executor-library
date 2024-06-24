@@ -157,18 +157,18 @@ print('Hello')
 
         static async Task Main(string[] args)
         {
-            //await InstallPackage();
+            await InstallPackage();
 
-            // await ExecCode();
-            //var stopwatch = new Stopwatch();
+            await ExecCode();
+            var stopwatch = new Stopwatch();
 
-            //stopwatch.Start();
-            //await ExecMultipleCode();
-            //stopwatch.Stop();
+            stopwatch.Start();
+            await ExecMultipleCode();
+            stopwatch.Stop();
 
-            //Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms");
 
-            
+
 
             string pythonCode1 = "import os\nprint('Hello, World!')";
             string pythonCode2 = "fprintf('Hello, World!')";

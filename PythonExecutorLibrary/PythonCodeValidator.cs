@@ -1,14 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PythonExecutorLibrary
 {
+    /// <summary>
+    /// Provides methods to validate Python code.
+    /// </summary>
     public class PythonCodeValidator
     {
+        /// <summary>
+        /// Checks if the given Python code contains 'import' or 'print' statements.
+        /// </summary>
+        /// <param name="pythonCode">The Python code to validate.</param>
+        /// <returns>True if the code contains 'import' or 'print'; otherwise, false.</returns>
         public static bool ContainsImportOrPrint(string pythonCode)
         {
             if (string.IsNullOrEmpty(pythonCode))

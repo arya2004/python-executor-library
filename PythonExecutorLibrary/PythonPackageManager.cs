@@ -1,14 +1,22 @@
 ﻿using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace PythonExecutorLibrary
 {
-
+    /// <summary>
+    /// Provides methods to manage Python packages using pip.
+    /// </summary>
     public class PythonPackageManager
     {
-
-
-
+        /// <summary>
+        /// Installs a Python package asynchronously.
+        /// </summary>
+        /// <param name="fullPythonPath">The full path to the Python executable.</param>
+        /// <param name="packageName">The name of the package to install.</param>
+        /// <param name="args">Additional arguments for the pip install command.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating whether the installation was successful.</returns>
         public static async Task<bool> InstallPackageAsync(string fullPythonPath, string packageName, string args = "")
         {
             var startInfo = new ProcessStartInfo
@@ -38,7 +46,6 @@ namespace PythonExecutorLibrary
                     {
                         // Handle pip error output, if needed
                         // Console.WriteLine(eventArgs.Data);
-
                     }
                 };
 
@@ -52,8 +59,12 @@ namespace PythonExecutorLibrary
             }
         }
 
-
-
+        /// <summary>
+        /// Checks if a Python package is installed asynchronously.
+        /// </summary>
+        /// <param name="fullPythonPath">The full path to the Python executable.</param>
+        /// <param name="packageName">The name of the package to check.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating whether the package is installed.</returns>
         public static async Task<bool> PackageExistsAsync(string fullPythonPath, string packageName)
         {
             var startInfo = new ProcessStartInfo
@@ -87,8 +98,12 @@ namespace PythonExecutorLibrary
             }
         }
 
-
-
+        /// <summary>
+        /// Checks if a Python package is healthy (i.e., can be imported without error) asynchronously.
+        /// </summary>
+        /// <param name="fullPythonPath">The full path to the Python executable.</param>
+        /// <param name="packageName">The name of the package to check.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating whether the package is healthy.</returns>
         public static async Task<bool> IsPackageHealthyAsync(string fullPythonPath, string packageName)
         {
             var startInfo = new ProcessStartInfo
@@ -110,7 +125,12 @@ namespace PythonExecutorLibrary
             }
         }
 
-
+        /// <summary>
+        /// Gets the location of a Python package asynchronously.
+        /// </summary>
+        /// <param name="fullPythonPath">The full path to the Python executable.</param>
+        /// <param name="packageName">The name of the package to locate.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the location of the package if found, otherwise null.</returns>
         public static async Task<string> GetPackageLocationAsync(string fullPythonPath, string packageName)
         {
             var startInfo = new ProcessStartInfo
@@ -159,8 +179,11 @@ namespace PythonExecutorLibrary
             }
         }
 
-
-
+        /// <summary>
+        /// Installs pip asynchronously.
+        /// </summary>
+        /// <param name="fullPythonPath">The full path to the Python executable.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating whether the installation was successful.</returns>
         public static async Task<bool> InstallPipAsync(string fullPythonPath)
         {
             const string getPipUrl = "https://bootstrap.pypa.io/get-pip.py";
@@ -228,6 +251,13 @@ namespace PythonExecutorLibrary
             }
         }
 
+        /// <summary>
+        /// Installs a Python package synchronously.
+        /// </summary>
+        /// <param name="fullPythonPath">The full path to the Python executable.</param>
+        /// <param name="packageName">The name of the package to install.</param>
+        /// <param name="args">Additional arguments for the pip install command.</param>
+        /// <returns>A boolean indicating whether the installation was successful.</returns>
         public static bool InstallPackage(string fullPythonPath, string packageName, string args = "")
         {
             var startInfo = new ProcessStartInfo
@@ -256,7 +286,7 @@ namespace PythonExecutorLibrary
                     if (!string.IsNullOrWhiteSpace(eventArgs.Data))
                     {
                         // Handle pip error output, if needed
-                        //Console.WriteLine(eventArgs.Data);
+                        // Console.WriteLine(eventArgs.Data);
                     }
                 };
 
@@ -270,6 +300,12 @@ namespace PythonExecutorLibrary
             }
         }
 
+        /// <summary>
+        /// Checks if a Python package is installed synchronously.
+        /// </summary>
+        /// <param name="fullPythonPath">The full path to the Python executable.</param>
+        /// <param name="packageName">The name of the package to check.</param>
+        /// <returns>A boolean indicating whether the package is installed.</returns>
         public static bool PackageExists(string fullPythonPath, string packageName)
         {
             var startInfo = new ProcessStartInfo
@@ -303,6 +339,12 @@ namespace PythonExecutorLibrary
             }
         }
 
+        /// <summary>
+        /// Checks if a Python package is healthy (i.e., can be imported without error) synchronously.
+        /// </summary>
+        /// <param name="fullPythonPath">The full path to the Python executable.</param>
+        /// <param name="packageName">The name of the package to check.</param>
+        /// <returns>A boolean indicating whether the package is healthy.</returns>
         public static bool IsPackageHealthy(string fullPythonPath, string packageName)
         {
             var startInfo = new ProcessStartInfo
@@ -324,6 +366,12 @@ namespace PythonExecutorLibrary
             }
         }
 
+        /// <summary>
+        /// Gets the location of a Python package synchronously.
+        /// </summary>
+        /// <param name="fullPythonPath">The full path to the Python executable.</param>
+        /// <param name="packageName">The name of the package to locate.</param>
+        /// <returns>The location of the package if found, otherwise null.</returns>
         public static string GetPackageLocation(string fullPythonPath, string packageName)
         {
             var startInfo = new ProcessStartInfo
@@ -372,6 +420,11 @@ namespace PythonExecutorLibrary
             }
         }
 
+        /// <summary>
+        /// Installs pip synchronously.
+        /// </summary>
+        /// <param name="fullPythonPath">The full path to the Python executable.</param>
+        /// <returns>A boolean indicating whether the installation was successful.</returns>
         public static bool InstallPip(string fullPythonPath)
         {
             const string getPipUrl = "https://bootstrap.pypa.io/get-pip.py";
@@ -430,8 +483,6 @@ namespace PythonExecutorLibrary
                 }
                 finally
                 {
-
-
                     // Clean up the temporary file
                     if (File.Exists(tempFilePath))
                     {
@@ -440,7 +491,5 @@ namespace PythonExecutorLibrary
                 }
             }
         }
-
     }
-
 }
