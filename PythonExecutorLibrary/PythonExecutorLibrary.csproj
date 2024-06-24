@@ -5,16 +5,35 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Title>PythonExecutorLibrary</Title>
+	  
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>python, code-execution</PackageTags>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Authors>arya2004</Authors>
-    <Company>CodingKraft</Company>
-    <Description>Local Python Code Execution Abstraction</Description>
+	  <NoWarn>$(NoWarn);1591</NoWarn>
+	  <Authors>arya2004</Authors>
+    <Company>Codingkraft</Company>
+	  
+    <Description>Local Python Code Execution Abstraction  </Description>
     <RepositoryUrl>https://github.com/arya2004/python-executor-library</RepositoryUrl>
+    <Copyright>arya2004</Copyright>
+    <PackageProjectUrl>https://github.com/arya2004/python-executor-library</PackageProjectUrl>
+    <PackageReleaseNotes>Added Async Methods, killing child process, package manager</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageIcon>Screenshot (2021).png</PackageIcon>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\..\Pictures\Screenshots\Screenshot (2021).png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
