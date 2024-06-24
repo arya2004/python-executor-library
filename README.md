@@ -170,9 +170,9 @@ Installs pip synchronously.
 
 - **Returns**: A boolean indicating whether the installation was successful.
 
-## Usage Examples
+### Usage Examples
 
-### Running a Python Script
+#### Running a Python Script
 
 ```csharp
 string pythonPath = @"C:\Python39\python.exe";
@@ -185,7 +185,7 @@ Console.WriteLine(output);
 
 
 
-### Installing a Python Package Asynchronously
+#### Installing a Python Package Asynchronously
 
 ```csharp
 string pythonPath = @"C:\Python39\python.exe";
@@ -195,7 +195,7 @@ bool isInstalled = await PythonPackageManager.InstallPackageAsync(pythonPath, pa
 Console.WriteLine("Package Installed: " + isInstalled);
 ```
 
-### Checking if a Package is Installed
+#### Checking if a Package is Installed
 
 ```csharp
 string pythonPath = @"C:\Python39\python.exe";
@@ -205,7 +205,7 @@ bool exists = PythonPackageManager.PackageExists(pythonPath, packageName);
 Console.WriteLine("Package Exists: " + exists);
 ```
 
-### Checking Package Health
+#### Checking Package Health
 
 ```csharp
 string pythonPath = @"C:\Python39\python.exe";
@@ -215,7 +215,7 @@ bool isHealthy = PythonPackageManager.IsPackageHealthy(pythonPath, packageName);
 Console.WriteLine("Package Healthy: " + isHealthy);
 ```
 
-### Installing pip Asynchronously
+#### Installing pip Asynchronously
 
 ```csharp
 string pythonPath = @"C:\Python39\python.exe";
@@ -226,7 +226,6 @@ bool isPipInstalled
 Console.WriteLine("pip Installed: " + isPipInstalled);
 ```
 
-This README provides an overview of the `PythonExecutorLibrary` and its main functionalities. For more detailed usage and advanced features, refer to the code comments and documentation.
 
 ___
 
@@ -509,4 +508,3 @@ class Program
     }
 }
 ```
-
